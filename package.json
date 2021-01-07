@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-gerhut",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Additional ESLint rules I used.",
   "main": "lib/index.js",
   "files": [
