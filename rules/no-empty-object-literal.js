@@ -9,13 +9,25 @@ module.exports = {
     return {
       ObjectExpression(node) {
         if (node.properties.length === 0) {
-          context.report({
-            message,
-            node,
-            fix(fixer) {
+          const descriptor = { message, node }
+
+          let declaredObject = false
+          const ancestors = context.getAncestors(node)
+          outer: for (const ancestor of ancestors) {
+            const variables = context.getDeclaredVariables(ancestor)
+            for (const variable of variables) {
+              if (variable.name === 'Object') {
+                declaredObject = true
+                break outer
+              }
+            }
+          }
+          if (declaredObject === false) {
+            descriptor.fix = function fix(fixer) {
               return fixer.replaceText(node, 'Object.create(null)')
             }
-          })
+          }
+          context.report(descriptor)
         }
       }
     }
