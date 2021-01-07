@@ -1,0 +1,1 @@
+exports['all'] = require('./all')
