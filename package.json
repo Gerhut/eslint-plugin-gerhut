@@ -24,6 +24,9 @@
     "url": "https://github.com/Gerhut/eslint-plugin-gerhut/issues"
   },
   "homepage": "https://github.com/Gerhut/eslint-plugin-gerhut#readme",
+  "dependencies": {
+    "eslint-utils": "^2.1.0"
+  },
   "devDependencies": {
     "eslint": "^7.17.0",
     "eslint-plugin-eslint-plugin": "^2.3.0",

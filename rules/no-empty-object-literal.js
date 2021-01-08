@@ -1,3 +1,4 @@
+const { findVariable } = require('eslint-utils')
 const message = 'Empty object literials (`{}`) is not allowed, use `Object.create(null)` instead.'
 
 module.exports = {
@@ -11,22 +12,14 @@ module.exports = {
         if (node.properties.length === 0) {
           const descriptor = { message, node }
 
-          let declaredObject = false
-          const ancestors = context.getAncestors(node)
-          outer: for (const ancestor of ancestors) {
-            const variables = context.getDeclaredVariables(ancestor)
-            for (const variable of variables) {
-              if (variable.name === 'Object') {
-                declaredObject = true
-                break outer
-              }
-            }
-          }
-          if (declaredObject === false) {
+          const objectVariable = findVariable(context.getScope(), 'Object')
+          if (objectVariable != null && objectVariable.defs.length === 0) {
+            // Object exists in the environment and not redefined: provide a fix
             descriptor.fix = function fix(fixer) {
               return fixer.replaceText(node, 'Object.create(null)')
             }
           }
+
           context.report(descriptor)
         }
       }

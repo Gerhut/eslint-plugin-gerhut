@@ -16,7 +16,21 @@ ruleTester.run('no-empty-object-literal', rule, {
       output: 'var a = Object.create(null)'
     },
     {
+      code: 'var a = {}, b = Object.create(null)',
+      errors: ['Empty object literials (`{}`) is not allowed, use `Object.create(null)` instead.'],
+      output: 'var a = Object.create(null), b = Object.create(null)'
+    },
+    {
+      code: 'function a() { console.log({}) }',
+      errors: ['Empty object literials (`{}`) is not allowed, use `Object.create(null)` instead.'],
+      output: 'function a() { console.log(Object.create(null)) }'
+    },
+    {
       code: 'var Object = 1, a = {}',
+      errors: ['Empty object literials (`{}`) is not allowed, use `Object.create(null)` instead.']
+    },
+    {
+      code: 'var Object = 1; function a() { console.log({}) }',
       errors: ['Empty object literials (`{}`) is not allowed, use `Object.create(null)` instead.']
     }
   ]
